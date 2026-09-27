@@ -1,7 +1,7 @@
 services:
-  # ----------------------------------------------------
+  ----------------------------------------------------
   # TRAEFIK: API Gateway (Dashboard available on :8888)
-  # ----------------------------------------------------
+   ----------------------------------------------------
   traefik:
     image: traefik:v3
     container_name: traefik
@@ -9,7 +9,6 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      # Defines the standard web entrypoint for port 80
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
@@ -19,9 +18,9 @@ services:
     networks:
       - proxy-net
 
-  # ----------------------------------------------------
+   ----------------------------------------------------
   # MINIO: Enterprise Private Cloud Storage
-  # ----------------------------------------------------
+   ----------------------------------------------------
   minio:
     image: quay.io/minio/minio:latest
     container_name: minio
@@ -38,20 +37,18 @@ services:
       - proxy-net
     labels:
       - "traefik.enable=true"
-
-      # Router 1: MinIO S3 API (Handles data transfer)
       - "traefik.http.routers.minio-api.rule=Host(`s3.localhost`)"
       - "traefik.http.routers.minio-api.entrypoints=web"
       - "traefik.http.services.minio-api.loadbalancer.server.port=9000"
 
-      # Router 2: MinIO Web Console (Handles management browser UI)
+    
       - "traefik.http.routers.minio-console.rule=Host(`console.localhost`)"
       - "traefik.http.routers.minio-console.entrypoints=web"
       - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
 
-# ----------------------------------------------------
+ ----------------------------------------------------
 # NETWORKS & VOLUMES: Managed resources
-# ----------------------------------------------------
+ ----------------------------------------------------
 networks:
   proxy-net:
     name: proxy-net
