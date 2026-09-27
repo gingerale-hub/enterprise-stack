@@ -1,0 +1,46 @@
+services:
+  # ----------------------------------------------------
+  # TRAEFIK: API Gateway (Dashboard available on :8888)
+  # ----------------------------------------------------
+  traefik:
+    image: traefik:v3
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+    ports:
+      - "8888:8080"   
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-net
+
+  # ----------------------------------------------------
+  # MINIO: Enterprise Private Cloud Storage (Direct Ports)
+  # ----------------------------------------------------
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_enterprise_data:/data 
+    ports:
+      - "9000:9000"   
+      - "9001:9001"   
+    command: server /data --console-address ":9001"
+    networks:
+      - proxy-net
+
+# ----------------------------------------------------
+# NETWORKS & VOLUMES: Managed resources
+# ----------------------------------------------------
+networks:
+  proxy-net:
+    name: proxy-net
+
+volumes:
+  minio_enterprise_data: 
+    name: minio_enterprise_data
