@@ -1,7 +1,4 @@
-# enterprise-stack
-Amazon S3 simulated cloud storage stack
-[READ.me.txt](https://github.com/user-attachments/files/32708566/READ.me.txt)
-#Enterprise Self-Hosted Object Storage Pipeline
+Enterprise Self-Hosted Object Storage Pipeline
 
 A highly secure, containerized private cloud storage solution built using Infrastructure as Code principles. This architecture deploys an enterprise S3-obeject storage server using the secure and private Docker network 
 
@@ -14,14 +11,36 @@ Secret Management: Implements strict DevSecOps boundaries by injecting configura
 
 Getting Started
 
-Clone this repository
-Duplicate the `.env.example` template and rename it to `.env` :
-    ```bash
-    cp .env.example .env
-    ```
+## Getting Started
+
+1. Clone this repository.
+2. Duplicate the environment configuration template file (`env.example`) and rename it to `.env`:
+
+   **Windows (PowerShell):**
+   powershell:
+   Copy-Item env.example .env
+  
+
+   **Windows (Command Prompt):**
+   cmd
+   copy env.example .env
+   
+
+   **Linux / macOS (Bash):**
+   bash
+   cp env.example .env
+   
+
 3. Open `.env` and fill in your secure root credentials.
 4. Launch the stack in detached mode:
-   ```bash
+   **Linux/ macOS (bash)**
+   bash
    docker compose up -d
-   ```
-5. Access the storage dashboard console locally at `http://localhost:9001`.
+
+   **Windows (Powershell or Command Prompt)**
+    docker compose up -d
+   
+5. Access your local network endpoints:
+   - **MinIO Web Console UI:** [http://console.localhost](http://console.localhost)
+   - **MinIO S3 API Endpoint:** [http://s3.localhost](http://s3.localhost)
+   - **Traefik Control Dashboard:** [http://localhost:8888](http://localhost:8888)
