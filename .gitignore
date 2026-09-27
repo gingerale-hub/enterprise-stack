@@ -1,0 +1,8 @@
+# Ignore environment secrets
+.env
+
+# Ignore local MinIO storage data
+minio_data/
+
+# Ignore Traefik SSL certificates
+**/acme.json
